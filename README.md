@@ -11,7 +11,7 @@ Sovelluksen tarkoitus on, että käyttäjät voivat lisätä lukemiaan kirjoja k
 - Käyttäjät voivat lukea muiden antamia palautteita kirjasta
 
 
-## Sovelluksen jatkokehityideat:
+## Sovelluksen jatkokehitysideat:
 - Sovelluksessa on lukuryhmiä
 - Sovellus suosittelee käyttäjälle esim. lukuryhmän murhamysteerin, koska käyttäjä on lukennut paljon murhamysteeri kirjoja 
 - Käyttäjä voi suositella kirjoja muille käyttäjille
