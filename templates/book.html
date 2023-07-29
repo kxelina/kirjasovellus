@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<head>
+  <title>Folder Books</title>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <a href="/">My Bookshelf</a>
+    </div>
+    <div class="user-container">
+      <a href="/folders">My Folders</a>
+      <img src="user-icon.png" alt="User Icon" class="user-icon">
+    </div>
+  </header>
+  <main>
+    <h1>Folder Name</h1>
+    <div class="books">
+      <div class="book">
+        <img src="book-cover.jpg" alt="Book Cover" class="book-cover">
+        <h2>The Book Title</h2>
+        <p class="author">Author: John Doe</p>
+        <p class="tag">Tag: Fiction</p>
+        <p class="year">Year: 2023</p>
+        <div class="rating">
+          <span class="stars">⭐⭐⭐⭐⭐</span> <!-- 5 stars rating -->
+          <p class="written-review">This book was amazing! I couldn't put it down.</p>
+        </div>
+      </div>
+      <!-- Add more books as needed -->
+    </div>
+    <button id="add-book-btn">Add New Book</button>
+</main>
+<script>
+  document.getElementById("add-book-btn").addEventListener("click", function() {
+    // You can implement logic to add new books here
+    // For example, you can use JavaScript to display a form and handle book addition
+    alert("Add new book functionality not implemented in this example.");
+  });
+</script>
+</body>
+</html>
+
+
+
+{% endblock %}

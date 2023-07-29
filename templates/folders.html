@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+<head>
+  <title>My Folders</title>
+  <script>
+    function toggleSettings() {
+      const settingsContainer = document.getElementById('settings-container');
+      settingsContainer.style.display = settingsContainer.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <a href="/">My Bookshelf</a>
+    </div>
+    <div class="user-container">
+      <a href="/folders">My Folders</a>
+      <img src="user-icon.png" alt="User Icon" class="user-icon">
+    </div>
+  </header>
+  <main>
+    <h1>My Folders</h1>
+    <div class="folders">
+      <a href="/folder/want-to-read">
+        <div class="folder">
+          <img src="folder-icon.png" alt="Folder Icon">
+          <p>Want to Read</p>
+        </div>
+      </a>
+      <a href="/folder/currently-reading">
+        <div class="folder">
+          <img src="folder-icon.png" alt="Folder Icon">
+          <p>Currently Reading</p>
+        </div>
+      </a>
+      <a href="/folder/Read">
+        <div class="folder">
+          <img src="folder-icon.png" alt="Folder Icon">
+          <p>Read</p>
+        </div>
+      </a>
+      <a href="/folder/Dropped">
+        <div class="folder">
+          <img src="folder-icon.png" alt="Folder Icon">
+          <p>Dropped</p>
+        </div>
+      </a>
+    </div>
+    <button id="add-folder-btn">Add New Folder</button>
+  </main>
+  <script>
+    document.getElementById("add-folder-btn").addEventListener("click", function() {
+      // You can implement logic to add new folders here
+      // For example, you can use JavaScript to display a form and handle folder creation
+      alert("Add new folder functionality not implemented in this example.");
+    });
+  </script>
+  </main>
+</body>
+</html>
+
+{% endblock %}

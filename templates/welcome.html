@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="logo-container">
+    <img class="logo" src="/static/images/bookshelf-icon.png" alt="Bookshelf Icon">
+    <h1>Bookshelve</h1>
+</div>
+
+<div class="content">
+    <form action="/app" method="post">
+        Username: <br><input type="text" name="username">
+        <p>
+        Password: <br><input type="password" name="password">
+        <p>
+        <input type="submit" value="Login">
+        </form>
+        
+        
+        <p>
+        <!--a href="/login">back</a-->
+    <button class="create_new_user_button" href="#" onclick="show('create_new_user_popup')">Create new user</button>
+
+    <div class="create_new_user_popup" id="create_new_user_popup">
+        <h2>New User:</h2>
+
+        <form action="/" method="post">
+        Username: <br><input type="text" name="username" minlength="1" maxlength="10">
+        <p>
+        Password: <br><input type="password" name="password">
+        <p>
+        <input type="submit" value="save">
+        </form>
+
+        <p>
+        <a href="#" onclick="hide('create_new_user_popup')">Back</a>
+    </div>
+</div>
+
+<script>
+    $ = function (id) {
+        return document.getElementById(id);
+    };
+
+    var show = function (id) {
+        $(id).style.display = 'block';
+    };
+
+    var hide = function (id) {
+        $(id).style.display = 'none';
+    };
+</script>
+    
+<!-- This button is taken from https://codepen.io/marine-fraysse/pen/eYmBEvQ -->
+{% endblock %}
