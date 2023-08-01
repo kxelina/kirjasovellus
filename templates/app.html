@@ -9,7 +9,7 @@
       settingsContainer.style.display = settingsContainer.style.display === 'none' ? 'block' : 'none';
     }
   
-    // Function to handle the image upload form submission
+   
     function handleImageUpload() {
       const form = document.querySelector("form");
       form.addEventListener("submit", function (event) {
@@ -22,11 +22,11 @@
         })
         .then(response => response.text())
         .then(data => {
-          // You can handle the response data here, e.g., show a success message
+         
           console.log(data);
         })
         .catch(error => {
-          // Handle errors here
+          
           console.error('Error:', error);
         });
       });
@@ -46,24 +46,23 @@
     </div>
     <div class="user-container">
       <a href="/folders">My Folders</a>
-      <img src="user-icon.png" alt="User Icon" class="user-icon" onclick="toggleSettings()">
+      <img src="{{ user_icon }}" alt="User Icon" class="user-icon" onclick="toggleSettings()">
       <div class="settings-container" id="settings-container">
-        <a href="#">Profile</a>
-        <a href="#">Settings</a>
-        <form action="/upload" method="post" enctype="multipart/form-data">
-          <input type="file" name="user_icon" accept="image/*">
-          <input type="submit" value="Upload">
-        </form>
-        <a href="#">Logout</a>
+        <a href="/upload">Profile</a>
+        <a href="/settings">Settings</a>
+        {% if session.username %}
+          <a href="/logout">Logout</a>
+        {% endif %}
       </div>      
     </div>
   </header>
   <main>
-    <!-- Book folders content goes here -->
   </main>
 </body>
 </html>
 
+
+<!-- Javascript is taken from ChatGpt -->
 
 
 {% endblock %}

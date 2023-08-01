@@ -7,6 +7,12 @@
 <body>
     <h1>Upload Image</h1>
     <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="user_icon" accept="image/*">
+        <input type="submit" value="Upload">
+      </form>
+    <a href="/app">back</a>
+    <!---
+    <form action="/upload" method="post" enctype="multipart/form-data">
         <label for="user_icon">User Icon:</label>
         <input type="file" name="user_icon" id="user_icon"><br>
 
@@ -17,7 +23,7 @@
         <input type="file" name="book_pic" id="book_pic"><br>
 
         <input type="submit" value="Upload">
-    </form>
+    </form> -->
 </body>
 
 {% endblock %}

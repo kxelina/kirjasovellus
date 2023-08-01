@@ -1,12 +1,13 @@
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    name TEXT,
+    username TEXT,
     password TEXT
 );
 
 
 CREATE TABLE images (
     id SERIAL PRIMARY KEY,
+    username TEXT, 
     user_icon BYTEA
 );
 
@@ -22,12 +23,11 @@ CREATE TABLE images (
 --     FOREIGN KEY (user_id) REFERENCES users (user_id)
 -- );
 
--- CREATE TABLE folders (
---     folder_id SERIAL PRIMARY KEY,
---     name TEXT,
---     user_id INTEGER,
---     FOREIGN KEY (user_id) REFERENCES users (user_id)
--- );
+CREATE TABLE folders (
+    folder_id SERIAL PRIMARY KEY,
+    name TEXT,
+    username TEXT
+);
 
 -- CREATE TABLE genre (
 --     genre_id SERIAL PRIMARY KEY,

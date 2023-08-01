@@ -1,12 +1,9 @@
 from app import app
-from flask import redirect, request, render_template, url_for
+from flask import redirect, request, render_template, session
 from werkzeug.utils import secure_filename
 import os
 import users
 
-@app.route("/app2", methods=["post"])
-def main():
-    return render_template("app.html")
 
 @app.route("/folders")
 def folders():
@@ -17,11 +14,7 @@ def book():
     return render_template("book.html")
 
 @app.route("/", methods=["post", "get"])
-# def index():
-#     return render_template("welcome.html")
-
 def create_new_user():
-    
     if request.method == "POST":
         
         username = request.form["username"]
@@ -38,10 +31,10 @@ def create_new_user():
         return redirect("/")
     return render_template("welcome.html")
     
-@app.route("/app", methods=["post"])
+@app.route("/app", methods=["post", "get"])
 def login():
     print("login")
-    if request.method == "POST":
+    if request.method == "POST":    
         
         username = request.form["username"]
         password = request.form["password"]
@@ -54,8 +47,9 @@ def login():
         
         if not users.login(username, password):
             return render_template("error.html", message="wrong username or password")
-        #return redirect("/")
-    return render_template("app.html")
+      
+    return render_template("app.html", user_icon="/static/images/7.jpg")
+
 
 
 @app.route("/logout")
@@ -63,10 +57,12 @@ def logout():
     users.logout()
     return redirect("/")
 
-@app.route('/upload', methods=["post"])
+@app.route("/upload", methods=["post", "get"])
 def upload():
+    if request.method == "GET":
+        return render_template("upload.html")
+    
     if request.method == "POST":
-        
         try :
             print("hello")
             print(request.files)
@@ -86,16 +82,42 @@ def upload():
             # folder_pic.save(os.path.join(app.config['UPLOAD_FOLDER'], folder_pic_filename))
             # book_pic.save(os.path.join(app.config['UPLOAD_FOLDER'], book_pic_filename))
             print(filename)
-            users.upload(filename)
+            users.upload(filename, username= "elina")
             print("hello3")
-            return "Upload successful!"
+            return  redirect("/app")
         except Exception as e:
        # By this way we can know about the type of error occurring
             print("The error is: ",e)
             return "error"
         
 
-    return redirect("/")#(url_for('index'))
+    return redirect("/")
+
+
+@app.route("/settings", methods=["post", "get"])
+def settings():
+    if request.method == 'POST':
+        new_username = request.form['new_username']
+        new_password = request.form['new_password']
+            
+        user_id = session.get('user_id')
+
+        users.update_user_info(user_id, new_username, new_password)
+        return redirect("/app")  
+
+    
+    return render_template("settings.html")
+
+@app.route("/folders", methods=["post"])
+def add_folder():
+    if request.method == 'POST':
+        folder_name = request.form['folder_name']
+        
+        return redirect("/app")
+
+    
+    return redirect("/app")
+
 
 
 
