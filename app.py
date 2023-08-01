@@ -5,6 +5,9 @@ app = Flask(__name__)
 
 app.secret_key = getenv("SECRET_KEY")
 
-UPLOAD_FOLDER = 'static/images'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+UPLOAD_FOLDER = "static/images/upload"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+PROFILE_FOLDER = "static/images/profile"
+app.config["PROFILE_FOLDER"] = PROFILE_FOLDER
 import routes  

@@ -7,7 +7,8 @@ import users
 
 @app.route("/folders")
 def folders():
-    return render_template("folders.html")
+    user_icon = users.user_icon()
+    return render_template("folders.html", user_icon=user_icon)
 
 @app.route("/book")
 def book():
@@ -41,14 +42,14 @@ def login():
         
 
         if not username or not password:
-           
             return render_template("error.html", message="fill in both fields")
 
         
         if not users.login(username, password):
             return render_template("error.html", message="wrong username or password")
-      
-    return render_template("app.html", user_icon="/static/images/7.jpg")
+    user_icon = users.user_icon()
+    print(user_icon)
+    return render_template("app.html", user_icon=user_icon)
 
 
 
@@ -77,12 +78,12 @@ def upload():
             # folder_pic_filename = secure_filename(folder_pic.filename)
             # book_pic_filename = secure_filename(book_pic.filename)
             print("hah")
-            filename = os.path.join(app.config['UPLOAD_FOLDER'], user_icon_filename)
+            filename = os.path.join(app.config["UPLOAD_FOLDER"], user_icon_filename)
             user_icon.save(filename)
             # folder_pic.save(os.path.join(app.config['UPLOAD_FOLDER'], folder_pic_filename))
             # book_pic.save(os.path.join(app.config['UPLOAD_FOLDER'], book_pic_filename))
             print(filename)
-            users.upload(filename, username= "elina")
+            users.upload(filename)
             print("hello3")
             return  redirect("/app")
         except Exception as e:
@@ -96,11 +97,11 @@ def upload():
 
 @app.route("/settings", methods=["post", "get"])
 def settings():
-    if request.method == 'POST':
-        new_username = request.form['new_username']
-        new_password = request.form['new_password']
+    if request.method == "POST":
+        new_username = request.form["new_username"]
+        new_password = request.form["new_password"]
             
-        user_id = session.get('user_id')
+        user_id = users.user_id()
 
         users.update_user_info(user_id, new_username, new_password)
         return redirect("/app")  
@@ -110,7 +111,7 @@ def settings():
 
 @app.route("/folders", methods=["post"])
 def add_folder():
-    if request.method == 'POST':
+    if request.method == "POST":
         folder_name = request.form['folder_name']
         
         return redirect("/app")

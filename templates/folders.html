@@ -16,7 +16,7 @@
     <div class="brand">
     </div>
     <div class="user-container">
-      <img src="{{ user_icon }}" alt="User Icon" class="user-icon">
+      <img src="{{ user_icon }}" alt="User Icon" class="user-icon" onclick="toggleSettings()">
       <div class="settings-container" id="settings-container">
         <a href="/upload">Profile</a>
         <a href="/settings">Settings</a>
@@ -54,7 +54,7 @@
         </div>
       </a>
     </div>
-    <button id="add-folder-btn">Add New Folder</button>
+  
     <button id="showFormButton" onclick="showForm()">Add New Folder</button>
 
     <div id="addFolderForm" style="display: none;">
