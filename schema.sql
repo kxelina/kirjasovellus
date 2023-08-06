@@ -18,16 +18,21 @@ CREATE TABLE books (
     author TEXT,
     publication_year INTEGER,
     description_text TEXT,
-    category TEXT,
-    reading_time INTEGER,
-    user_id INTEGER,
-    FOREIGN KEY (user_id) REFERENCES users (user_id)
+    genre TEXT,
+    reading_time INTEGER
 );
 
 CREATE TABLE folders (
     folder_id SERIAL PRIMARY KEY,
     folder_name TEXT,
-    username TEXT
+    username TEXT 
+);
+
+CREATE TABLE books_in_folder (
+    bookfolder_id SERIAL PRIMARY KEY,
+    folder_id INTEGER,
+    book_id INTEGER, 
+    username TEXT 
 );
 
 CREATE TABLE genre (
@@ -37,17 +42,12 @@ CREATE TABLE genre (
 
 CREATE TABLE book_genre (
     book_id INTEGER,
-    genre_id INTEGER,
-    PRIMARY KEY (book_id, genre_id),
-    FOREIGN KEY (book_id) REFERENCES books (book_id),
-    FOREIGN KEY (genre_id) REFERENCES genre (genre_id)
+    genre_id INTEGER
 );
 
 CREATE TABLE review (
     review_id SERIAL PRIMARY KEY,
     book_id INTEGER,
-    user_id INTEGER,
-    review_text TEXT NOT NULL,
-    FOREIGN KEY (book_id) REFERENCES books (book_id),
-    FOREIGN KEY (user_id) REFERENCES users (user_id)
+    username TEXT, 
+    review_text TEXT 
 );

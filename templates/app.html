@@ -2,11 +2,30 @@
 {% block content %}
 
 <head>
-  <title>My Bookshelf</title>
   <script>
     function toggleSettings() {
       const settingsContainer = document.getElementById('settings-container');
       settingsContainer.style.display = settingsContainer.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function toggleAddBookForm() {
+      const form = document.querySelector(".add-book-form");
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // JavaScript to show the book list when the search bar is clicked
+    function filterBookList() {
+      const searchInput = document.getElementById('search-input').value.toLowerCase();
+      const books = document.querySelectorAll('.book');
+      
+      books.forEach(book => {
+        const bookTitle = book.querySelector('.book-title').textContent.toLowerCase();
+        if (bookTitle.includes(searchInput)) {
+          book.style.display = 'block';
+        } else {
+          book.style.display = 'none';
+        }
+      });
     }
   
    
@@ -36,13 +55,14 @@
   </script>
   
 </head>
+
 <body>
   <header>
     <div class="brand">
     </div>
     <div class="search-container">
-      <input type="text" placeholder="Search books">
-      <button class="search-button">Search</button>
+      <input type="text" placeholder="Search books" id="search-input" oninput="filterBookList()">
+      <button class="search-button" onclick="filterBookList()">Search</button>
     </div>
     <div class="user-container">
       <a href="/folders">My Folders</a>
@@ -55,14 +75,51 @@
         {% endif %}
       </div>      
     </div>
+    <button class="add-button" onclick="showAddBookForm()">+</button>
   </header>
-  <main>
-  </main>
+
+<main>
+    {% for book in books %}
+      <a href="/book/{{ book.book_id }}"> 
+        <div class="book">
+          <h2 class="book-title">{{ book.title }}</h2>
+          <p class="author">Author: {{ book.author }}</p>
+        </div>
+      </a>
+    {% endfor %}
+  
+  <div class="add-book-form" style="display: none;">
+    <form action="/book" method="post">
+      <h2>Add Book</h2>
+      <label for="title">Title:</label>
+      <input type="text" name="title" required>
+  
+      <label for="author">Author:</label>
+      <input type="text" name="author" required>
+  
+      <label for="year">Year:</label>
+      <input type="text" name="publication_year" required>
+  
+      <label for="description">Description:</label>
+      <textarea name="description_text" required></textarea>
+  
+      <label for="genre">Genre:</label>
+      <input type="text" name="genre">
+  
+      <input type="submit" value="Add Book">
+    </form>
+  </div>
+</main>
+
+<script>
+
+    document.querySelector(".add-button").addEventListener("click", toggleAddBookForm);
+    
+</script>
+
 </body>
-</html>
 
-
-<!-- Javascript is taken from ChatGpt -->
+<!-- All javascript is taken from ChatGpt -->
 
 
 {% endblock %}

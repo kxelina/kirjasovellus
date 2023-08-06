@@ -1,55 +1,121 @@
 from app import app
-from flask import redirect, request, render_template, session
+from flask import redirect, request, render_template
 from werkzeug.utils import secure_filename
 import os
 import users
 
-
-@app.route("/folders")
+@app.route("/folders", methods=["post", "get"])
 def folders():
-    user_icon = users.user_icon()
-    return render_template("folders.html", user_icon=user_icon)
+    try:
+        if request.method == "POST":
+            
+                folder_name = request.form["folder_name"]
 
-@app.route("/book")
+                users.add_folders(folder_name)
+
+                return redirect("/app")
+        
+        if request.method == "GET":
+            user_icon = users.get_user_icon()
+            folder = users.get_folders()
+            print(folder)
+            return render_template("folders.html", user_icon=user_icon, folders=folder)  
+      
+    except Exception as e:
+        error = f"The error is folders({request.method}): {e}"
+        print(error)
+        return error
+
+@app.route("/book", methods=["post", "get"])
 def book():
-    return render_template("book.html")
+    try:
+        if request.method == "POST":
+            print("moi")
+            title = request.form["title"]
+            print(title)
+            author = request.form["author"]
+            print(author)
+            print(request.form)
+            year = request.form["publication_year"] 
+           
+            description = request.form["description_text"]
+            print(description)
+            genre = request.form["genre"]
+            
+            print(title, author, year, description, genre)
+            users.add_book(title, author, year, description, genre)
+
+            return redirect("/app")
+
+        if request.method == "GET":
+            user_icon = users.get_user_icon()
+            books = users.get_books()
+            print(books)
+            if books == []:
+                return redirect("/app")
+            
+            return render_template("book.html", books=books)
+
+    except Exception as e:
+        
+        error = f"The error is book({request.method}): {e}"
+        print(error)
+        return error
+
+    
 
 @app.route("/", methods=["post", "get"])
 def create_new_user():
-    if request.method == "POST":
+    try:
+        if request.method == "POST":
+            username = request.form["username"]
+            if len(username) < 1 or len(username) > 10:
+                return render_template("error.html", message="your username should contain 1-10 characters")
+
+            password = request.form["password"]
+            if password == "":
+                return render_template("error.html", message="you should have a password")
+
+
+            if not users.create_new_user(username, password):
+                return render_template("error.html", message="your user hasn't been created")
+            return redirect("/")
         
-        username = request.form["username"]
-        if len(username) < 1 or len(username) > 10:
-            return render_template("error.html", message="your username should contain 1-10 characters")
-
-        password = request.form["password"]
-        if password == "":
-            return render_template("error.html", message="you should have a password")
-
-
-        if not users.create_new_user(username, password):
-            return render_template("error.html", message="your user hasn't been created")
-        return redirect("/")
-    return render_template("welcome.html")
+        return render_template("welcome.html")
+    except Exception as e:
+        error = f"The error is new user({request.method}): {e}"
+        print(error)
+        return error
     
 @app.route("/app", methods=["post", "get"])
 def login():
     print("login")
-    if request.method == "POST":    
-        
-        username = request.form["username"]
-        password = request.form["password"]
-        
+    try:
+        if request.method == "POST":    
+            
+            username = request.form["username"]
+            password = request.form["password"]
+            
 
-        if not username or not password:
-            return render_template("error.html", message="fill in both fields")
+            if not username or not password:
+                return render_template("error.html", message="fill in both fields")
 
+            
+            if not users.login(username, password):
+                return render_template("error.html", message="wrong username or password")
+    
+
+
+        books = users.get_books()
+        user_icon = users.get_user_icon()
+        #print(books[0])
         
-        if not users.login(username, password):
-            return render_template("error.html", message="wrong username or password")
-    user_icon = users.user_icon()
-    print(user_icon)
-    return render_template("app.html", user_icon=user_icon)
+        return render_template("app.html", books=books, user_icon=user_icon)
+    except Exception as e:
+        error = f"The error is login({request.method}): {e}"
+        print(error)
+        return error
+
 
 
 
@@ -60,36 +126,33 @@ def logout():
 
 @app.route("/upload", methods=["post", "get"])
 def upload():
-    if request.method == "GET":
-        return render_template("upload.html")
-    
-    if request.method == "POST":
-        try :
+    try :
+        if request.method == "GET":
+            return render_template("upload.html")
+        
+        if request.method == "POST":
+            
             print("hello")
             print(request.files)
-            user_icon = request.files['user_icon']
-            print("12")
-            # folder_pic = request.files['folder_pic']
-            # print("123")
-            # book_pic = request.files['book_pic']
+            user_icon = request.files["user_icon"]
+                # book_pic = request.files['book_pic']
 
             print(user_icon.filename)
             user_icon_filename = secure_filename(user_icon.filename)
-            # folder_pic_filename = secure_filename(folder_pic.filename)
-            # book_pic_filename = secure_filename(book_pic.filename)
+                # book_pic_filename = secure_filename(book_pic.filename)
             print("hah")
             filename = os.path.join(app.config["UPLOAD_FOLDER"], user_icon_filename)
             user_icon.save(filename)
-            # folder_pic.save(os.path.join(app.config['UPLOAD_FOLDER'], folder_pic_filename))
-            # book_pic.save(os.path.join(app.config['UPLOAD_FOLDER'], book_pic_filename))
+                # book_pic.save(os.path.join(app.config['UPLOAD_FOLDER'], book_pic_filename))
             print(filename)
             users.upload(filename)
             print("hello3")
             return  redirect("/app")
-        except Exception as e:
-       # By this way we can know about the type of error occurring
-            print("The error is: ",e)
-            return "error"
+        
+    except Exception as e:
+        error = f"The error is upload({request.method}): {e}"
+        print(error)
+        return error
         
 
     return redirect("/")
@@ -97,27 +160,50 @@ def upload():
 
 @app.route("/settings", methods=["post", "get"])
 def settings():
-    if request.method == "POST":
-        new_username = request.form["new_username"]
-        new_password = request.form["new_password"]
-            
-        user_id = users.user_id()
+    try: 
+        if request.method == "POST":
+            new_password = request.form["new_password"]
+                
+            user_id = users.user_id()
 
-        users.update_user_info(user_id, new_username, new_password)
-        return redirect("/app")  
+            users.update_user_info(user_id, new_password)
+            return redirect("/app")  
 
-    
-    return render_template("settings.html")
-
-@app.route("/folders", methods=["post"])
-def add_folder():
-    if request.method == "POST":
-        folder_name = request.form['folder_name']
         
-        return redirect("/app")
-
+        return render_template("settings.html")
     
-    return redirect("/app")
+    except Exception as e:
+        error = f"The error is settings({request.method}): {e}"
+        print(error)
+        return error
+
+
+
+@app.route('/book/<book_id>')
+def book_details(book_id):
+    try:
+        if request.method == "POST":
+            #book_id = request.form.get("book_id")
+            folder_id = 5
+
+            users.add_book_to_folder(book_id, folder_id)
+            print("folder_id")
+
+            return redirect("/folders")
+        
+ 
+        
+        print("hello book")
+        print(book_id)
+        book = users.get_book(book_id)
+        print(book)
+        return render_template("book.html", book=book)
+
+    except Exception as e:
+        error = f"The error is book_details({request.method}): {e}"
+        print(error)
+        return error
+
 
 
 
