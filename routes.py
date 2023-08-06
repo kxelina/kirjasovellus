@@ -8,8 +8,9 @@ import users
 def folders():
     try:
         if request.method == "POST":
-            
+                #print(request.form)
                 folder_name = request.form["folder_name"]
+                
 
                 users.add_folders(folder_name)
 
@@ -18,7 +19,7 @@ def folders():
         if request.method == "GET":
             user_icon = users.get_user_icon()
             folder = users.get_folders()
-            print(folder)
+            #print(folder)
             return render_template("folders.html", user_icon=user_icon, folders=folder)  
       
     except Exception as e:
@@ -30,34 +31,25 @@ def folders():
 def book():
     try:
         if request.method == "POST":
-            print("moi")
             title = request.form["title"]
-            print(title)
             author = request.form["author"]
-            print(author)
-            print(request.form)
             year = request.form["publication_year"] 
-           
             description = request.form["description_text"]
-            print(description)
             genre = request.form["genre"]
-            
-            print(title, author, year, description, genre)
+            #print(title, author, year, description, genre)
             users.add_book(title, author, year, description, genre)
 
             return redirect("/app")
 
         if request.method == "GET":
-            user_icon = users.get_user_icon()
             books = users.get_books()
-            print(books)
+            #print(books)
             if books == []:
                 return redirect("/app")
             
             return render_template("book.html", books=books)
 
     except Exception as e:
-        
         error = f"The error is book({request.method}): {e}"
         print(error)
         return error
@@ -89,7 +81,7 @@ def create_new_user():
     
 @app.route("/app", methods=["post", "get"])
 def login():
-    print("login")
+    #print("login")
     try:
         if request.method == "POST":    
             
@@ -131,22 +123,21 @@ def upload():
             return render_template("upload.html")
         
         if request.method == "POST":
-            
-            print("hello")
-            print(request.files)
+            #print("hello")
+            #print(request.files)
             user_icon = request.files["user_icon"]
                 # book_pic = request.files['book_pic']
 
-            print(user_icon.filename)
+            #print(user_icon.filename)
             user_icon_filename = secure_filename(user_icon.filename)
                 # book_pic_filename = secure_filename(book_pic.filename)
-            print("hah")
+            #print("hah")
             filename = os.path.join(app.config["UPLOAD_FOLDER"], user_icon_filename)
             user_icon.save(filename)
                 # book_pic.save(os.path.join(app.config['UPLOAD_FOLDER'], book_pic_filename))
-            print(filename)
+            #print(filename)
             users.upload(filename)
-            print("hello3")
+            #print("hello3")
             return  redirect("/app")
         
     except Exception as e:
@@ -179,30 +170,50 @@ def settings():
 
 
 
-@app.route('/book/<book_id>')
+@app.route('/book/<book_id>',  methods=["post", "get"])
 def book_details(book_id):
     try:
         if request.method == "POST":
-            #book_id = request.form.get("book_id")
-            folder_id = 5
+            folders = request.form["folder_id"]
+            #print(folders)
 
-            users.add_book_to_folder(book_id, folder_id)
-            print("folder_id")
+            users.add_book_to_folder(book_id, folders) 
 
             return redirect("/folders")
+
         
- 
-        
-        print("hello book")
-        print(book_id)
+        #print("hello book")
+        #print(book_id)
         book = users.get_book(book_id)
-        print(book)
-        return render_template("book.html", book=book)
+        #print(book)
+        
+        if request.method == "GET":
+            folders = users.get_folders()
+        
+        return render_template("book.html", book=book, folders=folders)
+
 
     except Exception as e:
         error = f"The error is book_details({request.method}): {e}"
         print(error)
         return error
+    
+@app.route('/folder/<folder_id>',  methods=["post", "get"])
+def folder_books(folder_id):
+    try:
+        if request.method == "GET":
+            books_in_folder = users.get_books_in_folder(folder_id)
+            folders = users.get_foldername_by_id(folder_id)  
+            #print(books_in_folder)
+            #print(folders)
+
+        return render_template("booklist.html", books=books_in_folder, folder_name=folders)
+
+    except Exception as e:
+        error = f"The error is folder/folder.id({request.method}): {e}"
+        print(error)
+        return error
+
 
 
 

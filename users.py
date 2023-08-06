@@ -27,10 +27,10 @@ def logout():
     keys_to_remove = ["user_id", "username", "csrf_token", "user_name"]
     for key in keys_to_remove:
         session.pop(key, None)
-    print("keys")
-    for key in session:
-        print(key)
-    print("end")
+    #print("keys")
+    # for key in session:
+    #     print(key)
+    #print("end")
            
 
 def create_new_user(username, password):
@@ -55,7 +55,7 @@ def update_user_info(user_id, new_password):
     try:
         sql = text("UPDATE users SET password = :new_password WHERE id = :user_id")
         db.session.execute(sql, {"new_password": hash_value,"user_id": user_id})
-        print(user_id)
+        #print(user_id)
         db.session.commit()
     except Exception as e:
         print("Error updating user info:", e)
@@ -78,8 +78,6 @@ def save_image_to_database(image_path):
 
 def upload(filename):
     user_name = session.get("username")
-    print(filename)
-    print(save_image_to_database(filename))
     file_name, file_extension=os.path.splitext(filename)
     sql = text("INSERT INTO images (user_icon, username, file_extension) VALUES (:user_icon_data, :username, :file_extension) ON CONFLICT (username) DO UPDATE SET file_extension = :file_extension, user_icon = :user_icon_data")
     print(sql, {"user_icon": save_image_to_database(filename)})
@@ -96,7 +94,6 @@ def get_user_icon():
         filename = ("static/images/default-profile.jpg")
     else:
         filename = os.path.join(app.config["PROFILE_FOLDER"], user_name + file_data[1])
-        print(filename)
         image_data = io.BytesIO(file_data[0])
         
         image = Image.open(image_data)
@@ -110,20 +107,9 @@ def add_folders(folder_name, user_name=None):
     db.session.execute(sql, {"folder_name": folder_name, "username": user_name})
     db.session.commit()
 
-def get_folders():
-    user_name = session.get("username")
-    sql = text("SELECT folder_name FROM folders WHERE username = :username")
-    result = db.session.execute(sql, {"username": user_name})
-    folders = result.fetchall()
-    new_folders= []
-    for folder in folders:
-        new_folders.append(folder[0])
-    return new_folders
-
 
 def add_book(title, author, publication_year, description_text, genre):
     sql = text("INSERT INTO books (title, author, publication_year, description_text, genre) VALUES (:title, :author, :publication_year, :description_text, :genre)")
-    print("hello")
     db.session.execute(sql, {
         "title": title,
         "author": author,
@@ -137,34 +123,41 @@ def get_books():
     sql = text("SELECT book_id, title, author, publication_year, description_text, genre FROM books")
     result = db.session.execute(sql)
     book = result.fetchall()
-    #print(book[0])
     return book
 
 def get_book(book_id):
-    print("HELLO GET BOOK")
-    print(book_id)
     sql = text("SELECT book_id, title, author, publication_year, description_text, genre FROM books WHERE book_id = :book_id")
     result = db.session.execute(sql, {"book_id": book_id})
     book = result.fetchone()
-    #print(book[0])
     return book
 
 def add_book_to_folder(book_id, folder_id):
     user_name = session.get("username")
-    sql = text("INSERT INTO book_in_folder (book_id, folder_id, username) VALUES (:book_id, :folder_id, :username)")
+    sql = text("INSERT INTO books_in_folder (book_id, folder_id, username) VALUES (:book_id, :folder_id, :username)")
     db.session.execute(sql, {"book_id": book_id, "folder_id": folder_id, "username": user_name})
     db.session.commit()
 
 
-def get_folders_id():
+def get_folders():
     user_name = session.get("username")
-    sql = text("SELECT folder_name, folder_id FROM folders WHERE username = :username")
+    sql = text("SELECT folder_id, folder_name FROM folders WHERE username = :username")
     result = db.session.execute(sql, {"username": user_name})
     folders = result.fetchall()
-    new_folders= []
-    for folder in folders:
-        new_folders.append(folder[0])
-    return new_folders
+    return folders
+
+def get_books_in_folder(folder_id):
+    user_name = session.get("username")
+    sql = text("SELECT title, author, A.book_id FROM books AS A LEFT JOIN books_in_folder AS B ON A.book_id = B.book_id WHERE username = :username AND folder_id = :folder_id")
+    result = db.session.execute(sql, {"username": user_name, "folder_id": folder_id})
+    books = result.fetchall()
+    return books
+
+def get_foldername_by_id(folder_id):
+    sql = text("SELECT folder_name FROM folders WHERE folder_id = :folder_id")
+    result = db.session.execute(sql, {"folder_id": folder_id})
+    foldername = result.fetchone()
+    return foldername[0]
+
 
 
 

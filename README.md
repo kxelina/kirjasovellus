@@ -1,25 +1,25 @@
 # Tietokantasovellus, Kirjasovellus
 Sovelluksen tarkoitus on, että käyttäjät voivat lisätä lukemiaan kirjoja kansioihin. Käyttäjät voivat antaa kirjalliseen palautteen tai 1-5 arvion kirjalle.
 
+Sovellus ei ole testattavissa Fly.iossa. Sovellusta on testattu itse ja voi testata käynnistysohjeiden avulla.
 ## Sovelluksen ominaisuuksia:
-- Käyttäjä voi luoda tunnuksen, kirjautua, lisää oma kuvan profiiliin, vaihtaa salasanan  *tehty* 
-- Käyttäjä voi lisätä kirjoja sovellukseen ja etsiä kirjoja *tehty*
-- Käyttäjä voi lisätä kirjoja want to read, currently reading, read ja dropped kansioihin *tekemisissä*
-- Kirjan lukemiseen kulunut aika tallennetaan tietokantaan ja se näkyy käyttäjälle
-- Käyttäjä voi tehdä omia kansioita ja lisätä kirjoja sinne; voi lisätä kirjailijan, julkaisemisvuoden ja kuvan *tekemisissä*
-- Käyttäjä voi lisätä genre tagin esim. horror lukemaansaan kirjaan
-- Käyttäjä voi etsiä kirjoja arvion, tagin, kirjailijan tai julkaisemis vuoden perusteella
-- Käyttäjät voivat lukea muiden antamia palautteita kirjasta
+- Käyttäjä voi luoda tunnuksen, kirjautua, lisää oma kuvan profiiliin, vaihtaa salasanan  **tehty**
+- Käyttäjä voi lisätä kirjoja sovellukseen ja etsiä kirjoja **tehty**
+- Käyttäjä voi lisätä kirjoja want to read, currently reading, read ja dropped kansioihin **tehty**
+- Käyttäjä voi tehdä omia kansioita ja lisätä kirjoja sinne; voi lisätä kirjailijan, julkaisemisvuoden ja kuvan **tehty, paitsi kuvan lisääminen**
+- Käyttäjä voi lisätä genre tagin esim. horror lukemaansaan kirjaan **tehty osittain**
+- Käyttäjät voivat kirjoittaa palautteen ja lukea muiden antamia palautteita kirjasta **kesken**
 
 
 ## Sovelluksen jatkokehityideat:
+- Kirjan lukemiseen kulunut aika tallennetaan tietokantaan ja se näkyy käyttäjälle
+- Käyttäjä voi etsiä kirjoja arvion, tagin, kirjailijan tai julkaisemis vuoden perusteella
 - Sovelluksessa on lukuryhmiä
 - Sovellus suosittelee käyttäjälle esim. lukuryhmän murhamysteerin, koska käyttäjä on lukennut paljon murhamysteeri kirjoja 
 - Käyttäjä voi suositella kirjoja muille käyttäjille
 - Käyttäjä lähettää kaveripyynnön toiselle käyttäjälle
 
 
-Sovellus ei ole testattavissa Fly.iossa. 
 ## Käynnistysohje
 Kloonaa repositori, luo kansioon .env tiedostoon 
 ```

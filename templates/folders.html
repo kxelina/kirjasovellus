@@ -1,44 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
 
-
-<head>
-  <title>My Folders</title>
-  <script>
-    function toggleSettings() {
-      const settingsContainer = document.getElementById('settings-container');
-      settingsContainer.style.display = settingsContainer.style.display === 'none' ? 'block' : 'none';
-    }
-  </script>
-</head>
 <body>
-  <header>
-    <div class="brand">
-    </div>
-    <div class="search-container">
-      <input type="text" placeholder="Search books">
-      <button class="search-button">Search</button>
-    </div>
-    <div class="user-container">
-      <a href="/folders">My Folders</a>
-      <img src="{{ user_icon }}" alt="User Icon" class="user-icon" onclick="toggleSettings()">
-      <div class="settings-container" id="settings-container">
-        <a href="/upload">Profile</a>
-        <a href="/settings">Settings</a>
-        {% if session.username %}
-          <a href="/logout">Logout</a>
-        {% endif %}
-      </div>      
-    </div>
-  </header>
   <main>
     <h1>My Folders</h1>
     <div class="folders">
       {% for folder in folders %}
-        <a href="/folder/{{ folder }}">
+        <a href="/folder/{{ folder[0] }}">
           <div class="folder">
             <img src="static/images/folder-icon.png" alt="Folder Icon">
-            <p>{{ folder }}</p>
+            <p>{{ folder[1] }}</p>
           </div>
         </a>
       {% endfor %}
