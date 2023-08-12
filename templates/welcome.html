@@ -21,14 +21,15 @@
     <div class="create_new_user_popup" id="create_new_user_popup">
         <h2>New User:</h2>
 
-        <form action="/" method="post">
+        <form action="/create_user" method="post">
         Username: <br><input type="text" name="username" minlength="1" maxlength="10">
         <p>
-        Password: <br><input type="password" name="password">
+        Password: <br><input type="password" name="password1">
+        <p>
+        Password again: <br><input type="password" name="password2">
         <p>
         <input type="submit" value="save">
         </form>
-
         <p>
         <a href="#" onclick="hide('create_new_user_popup')">Back</a>
     </div>

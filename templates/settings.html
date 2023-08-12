@@ -8,8 +8,11 @@
     <h1>Settings</h1>
     <form action="/settings" method="post">
         <label for="new_password">New Password:</label>
-        <input type="password" name="new_password" id="new_password">
+        <input type="password" name="new_password1" id="new_password">
+        <label for="new_password">New Password again:</label>
+        <input type="password" name="new_password2" id="new_password">
         <input type="submit" value="Save Changes">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
         <a href="/app">back</a>
     </form>
 </body>

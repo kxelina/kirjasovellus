@@ -22,17 +22,11 @@ def login(username, password):
 
     return True
 
-
 def logout():
-    keys_to_remove = ["user_id", "username", "csrf_token", "user_name"]
+    keys_to_remove = ["user_id", "username", "csrf_token"]
     for key in keys_to_remove:
         session.pop(key, None)
-    #print("keys")
-    # for key in session:
-    #     print(key)
-    #print("end")
-           
-
+  
 def create_new_user(username, password):
     hash_value = generate_password_hash(password)
     try:
@@ -47,26 +41,26 @@ def create_new_user(username, password):
         print("The error is: ",e)
         return False
 
-    return True
-
+    return login(username, password)
 
 def update_user_info(user_id, new_password):
     hash_value = generate_password_hash(new_password)
     try:
         sql = text("UPDATE users SET password = :new_password WHERE id = :user_id")
         db.session.execute(sql, {"new_password": hash_value,"user_id": user_id})
-        #print(user_id)
         db.session.commit()
     except Exception as e:
         print("Error updating user info:", e)
-       
 
 def user_id():
     return session.get("user_id", 0)
 
 def check_csrf():
     csrf_token = session.get("csrf_token")
+    print(csrf_token)
     form_csrf_token = request.form.get("csrf_token")
+    print(form_csrf_token)
+    print(request.form)
     if csrf_token != form_csrf_token:
         abort(403)
 
@@ -74,7 +68,6 @@ def save_image_to_database(image_path):
     with open(image_path, 'rb') as file:
         image_data = file.read()
     return psycopg2.Binary(image_data)
-
 
 def upload(filename):
     user_name = session.get("username")
@@ -107,7 +100,6 @@ def add_folders(folder_name, user_name=None):
     db.session.execute(sql, {"folder_name": folder_name, "username": user_name})
     db.session.commit()
 
-
 def add_book(title, author, publication_year, description_text, genre):
     sql = text("INSERT INTO books (title, author, publication_year, description_text, genre) VALUES (:title, :author, :publication_year, :description_text, :genre)")
     db.session.execute(sql, {
@@ -136,7 +128,6 @@ def add_book_to_folder(book_id, folder_id):
     sql = text("INSERT INTO books_in_folder (book_id, folder_id, username) VALUES (:book_id, :folder_id, :username)")
     db.session.execute(sql, {"book_id": book_id, "folder_id": folder_id, "username": user_name})
     db.session.commit()
-
 
 def get_folders():
     user_name = session.get("username")
