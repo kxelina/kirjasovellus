@@ -57,10 +57,7 @@ def user_id():
 
 def check_csrf():
     csrf_token = session.get("csrf_token")
-    print(csrf_token)
     form_csrf_token = request.form.get("csrf_token")
-    print(form_csrf_token)
-    print(request.form)
     if csrf_token != form_csrf_token:
         abort(403)
 
@@ -148,6 +145,21 @@ def get_foldername_by_id(folder_id):
     result = db.session.execute(sql, {"folder_id": folder_id})
     foldername = result.fetchone()
     return foldername[0]
+
+def add_review(book_id, review_text, rating):
+    user_name = session.get("username")
+    print("hello add review")
+    sql = text("INSERT INTO review (book_id, review_text, username, rating) VALUES (:book_id, :review_text, :username, :rating)")
+    db.session.execute(sql, {"book_id": book_id, "username": user_name, "review_text": review_text, "rating": rating})
+    db.session.commit()
+
+def get_reviews(book_id):
+    sql = text("SELECT review_text, rating, username FROM review WHERE book_id = :book_id")
+    result = db.session.execute(sql, {"book_id": book_id})
+    reviews = result.fetchall()
+    return reviews
+
+
 
 
 

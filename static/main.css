@@ -262,10 +262,33 @@ body {
     flex: 1;
   }
   
-  .stars {
-    color: gold;
+  .rating input {
+    display: none;
   }
-
+  
+  .rating label {
+    float: right;
+    cursor: pointer;
+    color: #444;
+  }
+  
+  .rating label:before {
+    content: '★';
+    margin: 5px;
+  }
+  
+  .rating input:checked ~ label,
+  .rating:not(:checked) label:hover,
+  .rating:not(:checked) label:hover ~ label {
+    color: #FFD700;
+  }
+  
+  .rating input:checked + label:hover,
+  .rating input:checked ~ label:hover,
+  .rating label:hover ~ input:checked ~ label,
+  .rating input:checked ~ label:hover ~ label {
+    color: #FFED85;
+  }
 
 .add-button {
   width: 40px;

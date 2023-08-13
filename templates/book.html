@@ -9,12 +9,35 @@
         <p class="genre">Genre: {{ book.genre }}</p>
         <p class="year">Year: {{ book.publication_year }}</p>
         <p class="description_text">Description: {{ book.description_text }}</p>
-        <div class="rating">
-          <span class="stars">⭐⭐⭐⭐⭐</span>
-          <p class="written-review">{{ book.description }}</p>
-        </div>
-        <h2>Add Book to Folder</h2>
-            <form action="/book/{{ book.book_id }}" method="post">
+            <form action="/review/book/{{ book.book_id }}" method="post" name="review">
+              <input type="hidden" name="book_id" value="{{ book.book_id }}">
+              <div class="rating">
+                <input type="radio" id="star5" name="rating" value="5"><label for="star5"></label>
+                <input type="radio" id="star4" name="rating" value="4"><label for="star4"></label>
+                <input type="radio" id="star3" name="rating" value="3"><label for="star3"></label>
+                <input type="radio" id="star2" name="rating" value="2"><label for="star2"></label>
+                <input type="radio" id="star1" name="rating" value="1"><label for="star1"></label>
+              </div>
+              <textarea name="review_text" placeholder="Write your review"></textarea>
+              <p>
+              <input type="submit" value="Submit Review">
+              <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"> 
+            </form>
+          <h2>Reviews</h2>
+            <div class="reviews">
+                {% for review in reviews %}
+                    <div class="review">
+                        <p>{% for star in range(review.rating) %}
+                              ⭐
+                          {% endfor %}
+                        </p>
+                        <p>{{ review.review_text }}</p>
+                        <p>By: {{ review.username }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+          <h2>Add Book to Folder</h2>
+            <form action="/book/{{ book.book_id }}" method="post" name="folder">
               <input type="hidden" name="book_id" value="{{ book.book_id }}">
               <select name="folder_id">
                 {% for folder in folders %}
@@ -22,13 +45,10 @@
                 {% endfor %}
               </select>
               <input type="submit" value="Add to Folder">
-              <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+              <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"> 
             </form>
-      </div>
-    
+        </div> 
+      <a href="/app">back</a>
   </main>
-   
-  <a href="/app">back</a>
-
 
 {% endblock %}

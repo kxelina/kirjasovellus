@@ -49,5 +49,6 @@ CREATE TABLE review (
     review_id SERIAL PRIMARY KEY,
     book_id INTEGER,
     username TEXT, 
-    review_text TEXT 
+    review_text TEXT, 
+    rating INTEGER
 );

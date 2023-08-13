@@ -43,11 +43,8 @@ def create_new_user():
 def login():
     try:
         if request.method == "POST":    
-            print("hello")
             username = request.form["username"]
-            print(username)
             password = request.form["password"]
-            print(password)
             
             if not username or not password:
                 return render_template("error.html", message="fill in both fields")
@@ -101,6 +98,7 @@ def book():
             description = request.form["description_text"]
             genre = request.form["genre"]
             users.add_book(title, author, year, description, genre)
+        
             return redirect("/app")
 
         if request.method == "GET":
@@ -169,6 +167,7 @@ def book_details(book_id):
     try:
         if request.method == "POST":
             users.check_csrf()
+            print("hello")
             folders = request.form["folder_id"]
             users.add_book_to_folder(book_id, folders) 
             return redirect("/folders")
@@ -176,10 +175,27 @@ def book_details(book_id):
         if request.method == "GET":
             folders = users.get_folders()
             book = users.get_book(book_id)
-            return render_template("book.html", book=book, folders=folders)
+            reviews = users.get_reviews(book_id)
+            return render_template("book.html", book=book, folders=folders, reviews=reviews)
 
     except Exception as e:
         error = f"The error is book_details({request.method}): {e}"
+        print(error)
+        return error
+    
+@app.route('/review/book/<book_id>',  methods=["post"])
+def reviews(book_id):
+    try:
+        if request.method == "POST":
+            users.check_csrf()
+            review = request.form["review_text"]
+            rating = request.form["rating"]
+            users.add_review(book_id, review, rating)
+            print("hello review")
+            return redirect('/book/<book_id>')
+
+    except Exception as e:
+        error = f"The error is book_details review({request.method}): {e}"
         print(error)
         return error
     
