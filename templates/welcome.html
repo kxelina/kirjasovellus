@@ -1,22 +1,21 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<div class="logo-container">
-    <img class="logo" src="/static/images/bookshelf-icon.png" alt="Bookshelf Icon">
-    <h1>Bookshelf</h1>
-</div>
 
+<img class="logo" src="/static/images/bookshelf-icon.png" alt="Bookshelf Icon">
+<h1>Bookshelf</h1>
+<div class="overlay" id="overlay" onclick="hide('create_new_user_popup')"></div>
 <div class="content">
     <form action="/app" method="post">
         Username: <br><input type="text" name="username">
         <p>
         Password: <br><input type="password" name="password">
         <p>
-        <input type="submit" value="Login">
+        <input type="submit" value="Login" id="showFormButton">
         </form>
         <p>
     
-    <button class="create_new_user_button" href="#" onclick="show('create_new_user_popup')">Create new user</button>
+    <button class="create_new_user_button" href="#" onclick="show('create_new_user_popup')" id="showFormButton">Create new user</button>
 
     <div class="create_new_user_popup" id="create_new_user_popup">
         <h2>New User:</h2>
@@ -42,10 +41,12 @@
 
     var show = function (id) {
         $(id).style.display = 'block';
+        $('overlay').style.display = 'block';
     };
 
     var hide = function (id) {
         $(id).style.display = 'none';
+        $('overlay').style.display = 'none'; 
     };
 </script>
     

@@ -167,7 +167,6 @@ def book_details(book_id):
     try:
         if request.method == "POST":
             users.check_csrf()
-            print("hello")
             folders = request.form["folder_id"]
             users.add_book_to_folder(book_id, folders) 
             return redirect("/folders")
@@ -191,8 +190,7 @@ def reviews(book_id):
             review = request.form["review_text"]
             rating = request.form["rating"]
             users.add_review(book_id, review, rating)
-            print("hello review")
-            return redirect('/book/<book_id>')
+            return redirect(f"/book/{book_id}")
 
     except Exception as e:
         error = f"The error is book_details review({request.method}): {e}"

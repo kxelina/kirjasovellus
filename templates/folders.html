@@ -18,22 +18,22 @@
     <button id="showFormButton" onclick="showForm()">Add New Folder</button>
 
     <div id="addFolderForm" style="display: none;">
-        <form action="/folders" method="post">
-            <label for="folder_name">Folder Name:</label>
-            <input type="text" name="folder_name" required>
-            <input type="submit" value="Create Folder">
-            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-        </form>
+      <form action="/folders" method="post">
+          <label for="folder_name">Folder Name:</label>
+          <input type="text" name="folder_name" required>
+          <input type="submit" value="Create Folder" id="showFormButton">
+          <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+      </form>
     </div>
 
     <script>
-        function showForm() {
-            const form = document.getElementById('addFolderForm');
-            form.style.display = 'block';
-        }
+      function showForm() {
+          const form = document.getElementById('addFolderForm');
+          form.style.display = 'block';
+      }
     </script>
 
-    <a href="/app">back</a>
+    <a id="backButton" href="/app">back</a>
     
   </main>
 </body>

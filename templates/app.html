@@ -27,41 +27,14 @@
         }
       });
     }
-  
-   
-    function handleImageUpload() {
-      const form = document.querySelector("form");
-      form.addEventListener("submit", function (event) {
-        event.preventDefault();
-        const formData = new FormData(form);
-  
-        fetch('/upload', {
-          method: 'POST',
-          body: formData
-        })
-        .then(response => response.text())
-        .then(data => {
-         
-          console.log(data);
-        })
-        .catch(error => {
-          
-          console.error('Error:', error);
-        });
-      });
-    }
-  
-    handleImageUpload();
   </script>
 </head>
 
 <body>
   <header>
-    <div class="brand">
-    </div>
+    <button class="add-button">+</button>
     <div class="search-container">
       <input type="text" placeholder="Search books" id="search-input" oninput="filterBookList()">
-      <button class="search-button" onclick="filterBookList()">Search</button>
     </div>
     <div class="user-container">
       <a href="/folders">My Folders</a>
@@ -74,7 +47,6 @@
         {% endif %}
       </div>      
     </div>
-    <button class="add-button" onclick="showAddBookForm()">+</button>
   </header>
 
 <main>
