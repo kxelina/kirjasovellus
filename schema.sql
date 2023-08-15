@@ -4,11 +4,17 @@ CREATE TABLE users (
     password TEXT
 );
 
-
 CREATE TABLE images (
     image_id SERIAL PRIMARY KEY,
     username TEXT UNIQUE, 
     user_icon BYTEA,
+    file_extension TEXT
+);
+
+CREATE TABLE book_images (
+    image_id SERIAL PRIMARY KEY,
+    book_id INTEGER UNIQUE,
+    picture_data BYTEA,
     file_extension TEXT
 );
 
@@ -18,8 +24,7 @@ CREATE TABLE books (
     author TEXT,
     publication_year INTEGER,
     description_text TEXT,
-    genre TEXT,
-    reading_time INTEGER
+    genre TEXT
 );
 
 CREATE TABLE folders (
@@ -33,16 +38,6 @@ CREATE TABLE books_in_folder (
     folder_id INTEGER,
     book_id INTEGER, 
     username TEXT 
-);
-
-CREATE TABLE genre (
-    genre_id SERIAL PRIMARY KEY,
-    genre_name TEXT
-);
-
-CREATE TABLE book_genre (
-    book_id INTEGER,
-    genre_id INTEGER
 );
 
 CREATE TABLE review (

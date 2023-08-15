@@ -66,14 +66,14 @@ def save_image_to_database(image_path):
         image_data = file.read()
     return psycopg2.Binary(image_data)
 
-def upload(filename):
+def upload_user_icon(filename):
     user_name = session.get("username")
     file_name, file_extension=os.path.splitext(filename)
     sql = text("INSERT INTO images (user_icon, username, file_extension) VALUES (:user_icon_data, :username, :file_extension) ON CONFLICT (username) DO UPDATE SET file_extension = :file_extension, user_icon = :user_icon_data")
     print(sql, {"user_icon": save_image_to_database(filename)})
     db.session.execute(sql, {"user_icon_data": save_image_to_database(filename), "username": user_name, "file_extension": file_extension})
     db.session.commit()
-
+    
 def get_user_icon():
     user_name = session.get("username")
     sql = text("SELECT user_icon, file_extension FROM images WHERE username = :username")
@@ -84,6 +84,29 @@ def get_user_icon():
         filename = ("static/images/default-profile.jpg")
     else:
         filename = os.path.join(app.config["PROFILE_FOLDER"], user_name + file_data[1])
+        image_data = io.BytesIO(file_data[0])
+        
+        image = Image.open(image_data)
+        image.save(filename)
+    return filename
+
+def upload_book_pic(filename, book_id):
+    file_name, file_extension=os.path.splitext(filename)
+    sql = text("INSERT INTO book_images (picture_data, book_id, file_extension) VALUES (:picture_data, :book_id, :file_extension) ON CONFLICT (book_id) DO UPDATE SET file_extension = :file_extension, picture_data = :picture_data")
+    print(sql, {"picture_data": save_image_to_database(filename)})
+    db.session.execute(sql, {"picture_data": save_image_to_database(filename), "book_id": book_id, "file_extension": file_extension})
+    db.session.commit()
+
+def get_book_pic(book_id):
+    sql = text("SELECT picture_data, file_extension FROM book_images WHERE book_id = :book_id")
+    result = db.session.execute(sql, {"book_id": book_id})
+    file_data = result.fetchone() 
+  
+    if file_data is None:
+        filename = ("/static/images/default-book-cover.png")
+    else:
+        filename = os.path.join(app.config["BOOK_FOLDER"], book_id + file_data[1])
+        print(filename)
         image_data = io.BytesIO(file_data[0])
         
         image = Image.open(image_data)
@@ -109,7 +132,7 @@ def add_book(title, author, publication_year, description_text, genre):
     db.session.commit()
 
 def get_books():
-    sql = text("SELECT book_id, title, author, publication_year, description_text, genre FROM books")
+    sql = text("SELECT A.book_id, title, author, publication_year, description_text, genre, file_extension FROM books AS A LEFT JOIN book_images AS B ON A.book_id = B.book_id")
     result = db.session.execute(sql)
     book = result.fetchall()
     return book
@@ -135,7 +158,7 @@ def get_folders():
 
 def get_books_in_folder(folder_id):
     user_name = session.get("username")
-    sql = text("SELECT title, author, A.book_id FROM books AS A LEFT JOIN books_in_folder AS B ON A.book_id = B.book_id WHERE username = :username AND folder_id = :folder_id")
+    sql = text("SELECT B.title, B.author, B.book_id, I.file_extension FROM books AS B LEFT JOIN books_in_folder AS F ON B.book_id = F.book_id LEFT JOIN book_images AS I ON B.book_id = I.book_id WHERE username = :username AND folder_id = :folder_id")
     result = db.session.execute(sql, {"username": user_name, "folder_id": folder_id})
     books = result.fetchall()
     return books

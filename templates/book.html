@@ -4,7 +4,13 @@
 <main>
   <h1>{{ book.title  }}</h1>
     <div class="book">
-      <img src="../static/images/default-book-cover.png" alt="Book Cover" class="book-cover">
+      <img src="{{ book_pic }}" alt="Book Cover" class="book-cover">
+      <form action="/upload/{{ book.book_id }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="book_cover">
+        <input type="submit" value="Upload Cover">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+      </form>
+    
       <p class="author">Author: {{ book.author }}</p>
       <p class="genre">Genre: {{ book.genre }}</p>
       <p class="year">Year: {{ book.publication_year }}</p>

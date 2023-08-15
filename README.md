@@ -7,11 +7,14 @@ Sovellus ei ole testattavissa Fly.iossa. Sovellusta on testattu itse ja voi test
 - Käyttäjä voi lisätä kirjoja sovellukseen ja etsiä kirjoja **tehty**
 - Käyttäjä voi lisätä kirjoja want to read, currently reading, read ja dropped kansioihin **tehty**
 - Käyttäjä voi tehdä omia kansioita ja lisätä kirjoja sinne; voi lisätä kirjailijan, julkaisemisvuoden ja kuvan **tehty, paitsi kuvan lisääminen**
-- Käyttäjä voi lisätä genre tagin esim. horror lukemaansaan kirjaan **tehty osittain**
-- Käyttäjät voivat kirjoittaa palautteen ja lukea muiden antamia palautteita kirjasta **kesken**
+- Käyttäjät voivat kirjoittaa palautteen ja lukea muiden antamia palautteita kirjasta **tehty**
+- Käyttäjä voi poistaa kirjan kansiosta **kesken**
 
 
 ## Sovelluksen jatkokehityideat:
+- Lisätään järjestelmänvalvoja: Kirjojen, käyttäjien ja kommenttejen poistaminen
+- Käyttäjä voi lukita kirjan siten, että muut ei pysty muokkamaan kirjan tietoja tai sitten lisää kirjan kaikkien käyttöön
+- Käyttäjä voi lisätä genre tagin esim. horror lukemaansaan kirjaan (vastaava toiminto kirjan lisäminen kansioon)
 - Kirjan lukemiseen kulunut aika tallennetaan tietokantaan ja se näkyy käyttäjälle
 - Käyttäjä voi etsiä kirjoja arvion, tagin, kirjailijan tai julkaisemis vuoden perusteella
 - Sovelluksessa on lukuryhmiä

@@ -3,4 +3,5 @@ __pycache__
 .env
 static/images/profile
 static/images/upload
+static/images/book_pic
 schema_del.sql

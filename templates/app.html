@@ -53,6 +53,7 @@
     {% for book in books %}
       <a href="/book/{{ book.book_id }}"> 
         <div class="book">
+          <img src="{{ book_pic }}/{{ book.book_id }}{{ book.file_extension }}" alt="Book Cover" class="book-cover">
           <h2 class="book-title">{{ book.title }}</h2>
           <p class="author">Author: {{ book.author }}</p>
         </div>

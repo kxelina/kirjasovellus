@@ -56,7 +56,8 @@ def login():
         if request.method == "GET":
             books = users.get_books()
             user_icon = users.get_user_icon()
-            return render_template("app.html", books=books, user_icon=user_icon)
+            book_pic = app.config["BOOK_FOLDER"]
+            return render_template("app.html", books=books, user_icon=user_icon, book_pic= book_pic)
     
     except Exception as e:
         error = f"The error is login({request.method}): {e}"
@@ -121,15 +122,10 @@ def upload():
         if request.method == "POST":
             users.check_csrf()
             user_icon = request.files["user_icon"]
-                # book_pic = request.files['book_pic']
-            #print(user_icon.filename)
             user_icon_filename = secure_filename(user_icon.filename)
-                # book_pic_filename = secure_filename(book_pic.filename)
             filename = os.path.join(app.config["UPLOAD_FOLDER"], user_icon_filename)
             user_icon.save(filename)
-                # book_pic.save(os.path.join(app.config['UPLOAD_FOLDER'], book_pic_filename))
-            #print(filename)
-            users.upload(filename)
+            users.upload_user_icon(filename)
             return  redirect("/app")
         
     except Exception as e:
@@ -175,7 +171,8 @@ def book_details(book_id):
             folders = users.get_folders()
             book = users.get_book(book_id)
             reviews = users.get_reviews(book_id)
-            return render_template("book.html", book=book, folders=folders, reviews=reviews)
+            book_pic = f"../{users.get_book_pic(book_id)}"
+            return render_template("book.html", book=book, folders=folders, reviews=reviews, book_pic=book_pic)
 
     except Exception as e:
         error = f"The error is book_details({request.method}): {e}"
@@ -203,10 +200,28 @@ def folder_books(folder_id):
         if request.method == "GET":
             books_in_folder = users.get_books_in_folder(folder_id)
             folders = users.get_foldername_by_id(folder_id)  
-            return render_template("booklist.html", books=books_in_folder, folder_name=folders)
+            book_pic = f"../{app.config['BOOK_FOLDER']}"
+            return render_template("booklist.html", books=books_in_folder, folder_name=folders, book_pic=book_pic)
 
     except Exception as e:
         error = f"The error is folder/folder.id({request.method}): {e}"
+        print(error)
+        return error
+    
+@app.route('/upload/<book_id>',  methods=["post"])
+def upload_book_pic(book_id):
+    try:
+        if request.method == "POST":
+            users.check_csrf()
+            book_pic = request.files["book_cover"]
+            book_pic_filename = secure_filename(book_pic.filename)
+            filename = os.path.join(app.config["UPLOAD_FOLDER"], book_pic_filename)
+            book_pic.save(filename)
+            users.upload_book_pic(filename, book_id)
+            return redirect(f"/book/{book_id}")
+
+    except Exception as e:
+        error = f"The error is upload book pic({request.method}): {e}"
         print(error)
         return error
 
