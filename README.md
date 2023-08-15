@@ -6,7 +6,7 @@ Sovellus ei ole testattavissa Fly.iossa. Sovellusta on testattu itse ja voi test
 - Käyttäjä voi luoda tunnuksen, kirjautua, lisää oma kuvan profiiliin, vaihtaa salasanan  **tehty**
 - Käyttäjä voi lisätä kirjoja sovellukseen ja etsiä kirjoja **tehty**
 - Käyttäjä voi lisätä kirjoja want to read, currently reading, read ja dropped kansioihin **tehty**
-- Käyttäjä voi tehdä omia kansioita ja lisätä kirjoja sinne; voi lisätä kirjailijan, julkaisemisvuoden ja kuvan **tehty, paitsi kuvan lisääminen**
+- Käyttäjä voi tehdä omia kansioita ja lisätä kirjoja sinne; voi lisätä kirjailijan, julkaisemisvuoden ja kuvan **tehty**
 - Käyttäjät voivat kirjoittaa palautteen ja lukea muiden antamia palautteita kirjasta **tehty**
 - Käyttäjä voi poistaa kirjan kansiosta **kesken**
 

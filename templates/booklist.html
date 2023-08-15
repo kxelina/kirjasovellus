@@ -7,9 +7,9 @@
     {% for book in books %}
     <a href="/book/{{ book.book_id }}"> 
       <div class="book">
-        <img src="{{ book_pic }}/{{ book.book_id }}{{ book.file_extension }}" alt="Book Cover" class="book-cover">
+        <img src="{{ book_pic }}/{{ book.book_id }}{{ book.file_extension }}" onerror="this.onerror=null; this.src='../static/images/default-book-cover.png'" alt="Book Cover" class="book-cover">
         <h2>{{ book.title }}</h2>
-        <p class="author">Author: {{ book.author }}</p>
+        <p class="author"><b>Author:</b> {{ book.author }}</p>
       </div>
     </a>
     {% endfor %}

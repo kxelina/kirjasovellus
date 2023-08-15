@@ -199,8 +199,8 @@ def folder_books(folder_id):
     try:
         if request.method == "GET":
             books_in_folder = users.get_books_in_folder(folder_id)
-            folders = users.get_foldername_by_id(folder_id)  
             book_pic = f"../{app.config['BOOK_FOLDER']}"
+            folders = users.get_foldername_by_id(folder_id)  
             return render_template("booklist.html", books=books_in_folder, folder_name=folders, book_pic=book_pic)
 
     except Exception as e:
