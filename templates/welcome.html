@@ -1,11 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
 
-
-<img class="logo" src="/static/images/bookshelf-icon.png" alt="Bookshelf Icon">
-<h1>Bookshelf</h1>
 <div class="overlay" id="overlay" onclick="hide('create_new_user_popup')"></div>
 <div class="content">
+    <img class="logo" src="/static/images/bookshelf-icon.png" alt="Bookshelf Icon">
+    <h1>Bookshelf</h1>
     <form action="/app" method="post">
         Username: <br><input type="text" name="username">
         <p>

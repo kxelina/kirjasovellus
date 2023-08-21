@@ -1,17 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
-
-<head>
-    <title>Image Upload</title>
-</head>
-<body>
-    <h1>Upload Image</h1>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="user_icon" accept="image/*">
-        <input type="submit" value="Upload" id="showFormButton">
-        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-      </form>
-    <a id="backButton" href="/app">back</a>
-</body>
-
+<div class="content">
+    <head>
+        <title>Image Upload</title>
+    </head>
+    <body>
+        <h1>Upload Image</h1>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="user_icon" accept="image/*">
+            <input type="submit" value="Upload" id="showFormButton">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        </form>
+        <a id="backButton" href="/app">back</a>
+    </body>
+</div>
 {% endblock %}

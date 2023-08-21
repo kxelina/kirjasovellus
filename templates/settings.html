@@ -1,20 +1,20 @@
 {% extends "layout.html" %}
 {% block content %}
-
-<head>
-    <title>Settings</title>
-</head>
-<body>
-    <h1>Settings</h1>
-    <form action="/settings" method="post">
-        <label for="new_password">New Password:</label>
-        <input type="password" name="new_password1" id="new_password">
-        <label for="new_password">New Password again:</label>
-        <input type="password" name="new_password2" id="new_password">
-        <input type="submit" value="Save Changes" id="showFormButton">
-        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-    </form>
-    <a id="backButton" href="/app">back</a>
-</body>
-
+<div class="content">
+    <head>
+        <title>Settings</title>
+    </head>
+    <body>
+        <h1>Settings</h1>
+        <form action="/settings" method="post">
+            <label for="new_password">New Password:</label>
+            <input type="password" name="new_password1" id="new_password">
+            <label for="new_password">New Password again:</label>
+            <input type="password" name="new_password2" id="new_password">
+            <input type="submit" value="Save Changes" id="showFormButton">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        </form>
+        <a id="backButton" href="/app">back</a>
+    </body>
+</div>
 {% endblock %}

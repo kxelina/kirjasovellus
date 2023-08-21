@@ -30,24 +30,24 @@
   </script>
 </head>
 
-<body>
-  <header>
-    <button class="add-button">+</button>
-    <div class="search-container">
-      <input type="text" placeholder="Search books" id="search-input" oninput="filterBookList()">
-    </div>
-    <div class="user-container">
-      <a href="/folders">My Folders</a>
-      <img src="{{ user_icon }}" alt="User Icon" class="user-icon" onclick="toggleSettings()">
-      <div class="settings-container" id="settings-container">
-        <a href="/upload">Profile</a>
-        <a href="/settings">Settings</a>
-        {% if session.username %}
-          <a href="/logout">Logout</a>
-        {% endif %}
-      </div>      
-    </div>
-  </header>
+
+<header>
+  <button class="add-button">+</button>
+  <div class="search-container">
+    <input type="text" placeholder="Search books" id="search-input" oninput="filterBookList()">
+  </div>
+  <div class="user-container">
+    <a href="/folders">My Folders</a>
+    <img src="{{ user_icon }}" alt="User Icon" class="user-icon" onclick="toggleSettings()">
+    <div class="settings-container" id="settings-container">
+      <a href="/upload">Profile</a>
+      <a href="/settings">Settings</a>
+      {% if session.username %}
+        <a href="/logout">Logout</a>
+      {% endif %}
+    </div>      
+  </div>
+</header>
 
 <main>
     {% for book in books %}
@@ -70,7 +70,7 @@
       <input type="text" name="author" required>
   
       <label for="year">Year:</label>
-      <input type="text" name="publication_year" required>
+      <input type="number" name="publication_year" minlength="1" maxlength="4" min="1" max="5000"required>
   
       <label for="description">Description:</label>
       <textarea name="description_text" required></textarea>
@@ -87,7 +87,7 @@
 <script>
     document.querySelector(".add-button").addEventListener("click", toggleAddBookForm);
 </script>
-</body>
+
 <!-- All javascript is taken from ChatGpt -->
 
 {% endblock %}

@@ -4,15 +4,19 @@ from werkzeug.utils import secure_filename
 import os
 import users
 
+
+def error(e, request, route, link):
+    error = f"The error is {route}({request.method}): {e}"
+    print(error)
+    error2 = f"({request.method}) in {route}: {type(e).__name__}"
+    return render_template("error.html", message=error2, link=link)
+
 @app.route("/")
 def welcome():
     try:
         return render_template("welcome.html")
-    
     except Exception as e:
-        error = f"The error is welcome({request.method}): {e}"
-        print(error)
-        return error
+        return error(e, request, "/", "")
     
 @app.route("/create_user", methods=["post"])
 def create_new_user():
@@ -20,24 +24,22 @@ def create_new_user():
         if request.method == "POST":
             username = request.form["username"]
             if len(username) < 1 or len(username) > 10:
-                return render_template("error.html", message="your username should contain 1-10 characters")
+                return render_template("error.html", message="your username should contain 1-10 characters", link="")
 
             password1 = request.form["password1"]
             password2 = request.form["password2"]
             if password1 == "" or password2 == "":
-                return render_template("error.html", message="you should have a password")
+                return render_template("error.html", message="you should have a password", link="")
             
             if password1 != password2:
-                return render_template("error.html", message="your passwords are different")
+                return render_template("error.html", message="your passwords are different", link="")
 
             if not users.create_new_user(username, password1):
-                return render_template("error.html", message="your user hasn't been created")
+                return render_template("error.html", message="your user hasn't been created", link="")
             return redirect("/app")
         
     except Exception as e:
-        error = f"The error is new user({request.method}): {e}"
-        print(error)
-        return error
+        return error(e, request, "/create_user", "")
     
 @app.route("/app", methods=["post", "get"])
 def login():
@@ -60,9 +62,7 @@ def login():
             return render_template("app.html", books=books, user_icon=user_icon, book_pic= book_pic)
     
     except Exception as e:
-        error = f"The error is login({request.method}): {e}"
-        print(error)
-        return error
+        return error(e, request, "/app", "")
 
 @app.route("/logout")
 def logout():
@@ -84,9 +84,7 @@ def folders():
             return render_template("folders.html", user_icon=user_icon, folders=folder)  
         
     except Exception as e:
-        error = f"The error is folders({request.method}): {e}"
-        print(error)
-        return error
+        return error(e, request, "/folders", "app")
 
 @app.route("/book", methods=["post", "get"])
 def book():
@@ -109,9 +107,7 @@ def book():
             return render_template("book.html", books=books)
 
     except Exception as e:
-        error = f"The error is book({request.method}): {e}"
-        print(error)
-        return error
+        return error(e, request, "/book", "app")
 
 @app.route("/upload", methods=["post", "get"])
 def upload():
@@ -129,9 +125,7 @@ def upload():
             return  redirect("/app")
         
     except Exception as e:
-        error = f"The error is upload({request.method}): {e}"
-        print(error)
-        return error
+        return error(e, request, "/upload", "app")
 
 @app.route("/settings", methods=["post", "get"])
 def settings():
@@ -154,9 +148,7 @@ def settings():
             return render_template("settings.html")
     
     except Exception as e:
-        error = f"The error is settings({request.method}): {e}"
-        print(error)
-        return error
+        return error(e, request, "/settings", "app")
 
 @app.route('/book/<book_id>',  methods=["post", "get"])
 def book_details(book_id):
@@ -175,9 +167,7 @@ def book_details(book_id):
             return render_template("book.html", book=book, folders=folders, reviews=reviews, book_pic=book_pic)
 
     except Exception as e:
-        error = f"The error is book_details({request.method}): {e}"
-        print(error)
-        return error
+        return error(e, request, "/book/book_id", "app")
     
 @app.route('/review/book/<book_id>',  methods=["post"])
 def reviews(book_id):
@@ -190,9 +180,7 @@ def reviews(book_id):
             return redirect(f"/book/{book_id}")
 
     except Exception as e:
-        error = f"The error is book_details review({request.method}): {e}"
-        print(error)
-        return error
+        return error(e, request, "/review", "app")
     
 @app.route('/folder/<folder_id>',  methods=["get"])
 def folder_books(folder_id):
@@ -204,9 +192,7 @@ def folder_books(folder_id):
             return render_template("booklist.html", books=books_in_folder, folder_name=folders, book_pic=book_pic)
 
     except Exception as e:
-        error = f"The error is folder/folder.id({request.method}): {e}"
-        print(error)
-        return error
+        return error(e, request, "/folder", "app")
     
 @app.route('/upload/<book_id>',  methods=["post"])
 def upload_book_pic(book_id):
@@ -221,9 +207,7 @@ def upload_book_pic(book_id):
             return redirect(f"/book/{book_id}")
 
     except Exception as e:
-        error = f"The error is upload book pic({request.method}): {e}"
-        print(error)
-        return error
+        return error(e, request, "/upload/book_id", "app")
 
 
 

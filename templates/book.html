@@ -7,7 +7,7 @@
       <img src="{{ book_pic }}" alt="Book Cover" class="book-cover">
       <p>
       <form action="/upload/{{ book.book_id }}" method="post" enctype="multipart/form-data">
-        <input type="file" name="book_cover">
+        <input type="file" name="book_cover" accept="image/*">
         <input type="submit" value="Upload Book Cover" id="showFormButton">
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
       </form>
