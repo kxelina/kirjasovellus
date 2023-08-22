@@ -45,3 +45,4 @@ Sovellus käynnistyy komennolla:
 ```
 flask run
 ```
+-[käyttöohje](./manual.md)
