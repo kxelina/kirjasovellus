@@ -226,7 +226,7 @@ header {
 .rating {
     display: flex;
     flex-direction: row-reverse; 
-    padding-right: 20px;
+    padding-right: 25px;
 }
 
 .rating input {

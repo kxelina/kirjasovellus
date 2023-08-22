@@ -52,7 +52,7 @@ def update_user_info(user_id, new_password):
     except Exception as e:
         print("Error updating user info:", e)
 
-def user_id():
+def get_user_id():
     return session.get("user_id", 0)
 
 def check_csrf():
@@ -61,9 +61,19 @@ def check_csrf():
     if csrf_token != form_csrf_token:
         abort(403)
 
+def check_csrf_token():
+    csrf_token = session.get("csrf_token")
+    if csrf_token is None:
+        abort(403)
+
 def save_image_to_database(image_path):
     with open(image_path, 'rb') as file:
         image_data = file.read()
+    try:
+        Image.open(image_data)
+    except Exception as error:
+        print(error)
+        raise Exception("Invalid image file, try another image file")
     return psycopg2.Binary(image_data)
 
 def upload_user_icon(filename):
@@ -158,7 +168,7 @@ def get_folders():
 
 def get_books_in_folder(folder_id):
     user_name = session.get("username")
-    sql = text("SELECT B.title, B.author, B.book_id, I.file_extension FROM books AS B LEFT JOIN books_in_folder AS F ON B.book_id = F.book_id LEFT JOIN book_images AS I ON B.book_id = I.book_id WHERE username = :username AND folder_id = :folder_id")
+    sql = text("SELECT B.title, B.author, B.book_id, I.file_extension, folder_id FROM books AS B LEFT JOIN books_in_folder AS F ON B.book_id = F.book_id LEFT JOIN book_images AS I ON B.book_id = I.book_id WHERE username = :username AND folder_id = :folder_id")
     result = db.session.execute(sql, {"username": user_name, "folder_id": folder_id})
     books = result.fetchall()
     return books
@@ -171,7 +181,6 @@ def get_foldername_by_id(folder_id):
 
 def add_review(book_id, review_text, rating):
     user_name = session.get("username")
-    print("hello add review")
     sql = text("INSERT INTO review (book_id, review_text, username, rating) VALUES (:book_id, :review_text, :username, :rating)")
     db.session.execute(sql, {"book_id": book_id, "username": user_name, "review_text": review_text, "rating": rating})
     db.session.commit()
@@ -181,6 +190,15 @@ def get_reviews(book_id):
     result = db.session.execute(sql, {"book_id": book_id})
     reviews = result.fetchall()
     return reviews
+
+def remove_book_from_folder(folder_id, book_id):
+    user_name = session.get("username")
+    sql = text("DELETE FROM books_in_folder WHERE folder_id = :folder_id AND username = :username AND book_id = :book_id")
+    db.session.execute(sql, {"folder_id": folder_id, "book_id": book_id, "username":user_name})
+    db.session.commit()
+     
+
+
 
 
 
