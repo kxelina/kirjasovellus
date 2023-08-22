@@ -3,13 +3,13 @@ from flask import redirect, request, render_template
 from werkzeug.utils import secure_filename
 from app import app
 import users
+import book
 
 
 def error_message(error, req, route, link):
-    error1 = f"The error is {route}({req.method}): {error}"
-    print(error1)
-    error2 = f"({req.method}) in {route}: {type(error).__name__}"
-    return render_template("error.html", message=error2, link=link)
+    print(f"The error is {route}({req.method}): {error}")
+    user_error = f"({req.method}) in {route}: {type(error).__name__}"
+    return render_template("error.html", message=user_error, link=link)
 
 
 @app.route("/")
@@ -62,7 +62,7 @@ def handle_login():
 
         if request.method == "GET":
             users.check_csrf_token()
-            books = users.get_books()
+            books = book.get_books()
             user_icon = users.get_user_icon()
             book_pic = app.config["BOOK_FOLDER"]
             return render_template("app.html", books=books, user_icon=user_icon, book_pic=book_pic)
@@ -83,13 +83,13 @@ def handle_folders():
         if request.method == "POST":
             users.check_csrf()
             folder_name = request.form["folder_name"]
-            users.add_folders(folder_name)
+            book.add_folders(folder_name)
             return redirect("/folders")
 
         if request.method == "GET":
             users.check_csrf_token()
             user_icon = users.get_user_icon()
-            folder = users.get_folders()
+            folder = book.get_folders()
             return render_template("folders.html", user_icon=user_icon, folders=folder)
 
     except Exception as error:
@@ -106,12 +106,12 @@ def handle_book():
             year = request.form["publication_year"]
             description = request.form["description_text"]
             genre = request.form["genre"]
-            users.add_book(title, author, year, description, genre)
+            book.add_book(title, author, year, description, genre)
             return redirect("/app")
 
         if request.method == "GET":
             users.check_csrf_token()
-            books = users.get_books()
+            books = book.get_books()
             if books == []:
                 return redirect("/app")
             return render_template("book.html", books=books)
@@ -176,17 +176,17 @@ def handle_book_details(book_id):
         if request.method == "POST":
             users.check_csrf()
             folder_id = request.form["folder_id"]
-            users.add_book_to_folder(book_id, folder_id)
+            book.add_book_to_folder(book_id, folder_id)
             return redirect("/folders")
 
         if request.method == "GET":
             users.check_csrf_token()
-            folders = users.get_folders()
-            book = users.get_book(book_id)
-            reviews = users.get_reviews(book_id)
-            book_pic = f"../{users.get_book_pic(book_id)}"
+            folders = book.get_folders()
+            get_book = book.get_book(book_id)
+            reviews = book.get_reviews(book_id)
+            book_pic = f"../{book.get_book_pic(book_id)}"
             return render_template(
-                "book.html", book=book, folders=folders, reviews=reviews, book_pic=book_pic)
+                "book.html", book=get_book, folders=folders, reviews=reviews, book_pic=book_pic)
 
     except Exception as error:
         return error_message(error, request, "/book/book_id", "app")
@@ -199,7 +199,7 @@ def handle_reviews(book_id):
             users.check_csrf()
             review = request.form["review_text"]
             rating = request.form["rating"]
-            users.add_review(book_id, review, rating)
+            book.add_review(book_id, review, rating)
             return redirect(f"/book/{book_id}")
 
     except Exception as error:
@@ -211,16 +211,16 @@ def handle_folder_books(folder_id):
     try:
         if request.method == "GET":
             users.check_csrf_token()
-            books_in_folder = users.get_books_in_folder(folder_id)
+            books_in_folder = book.get_books_in_folder(folder_id)
             book_pic = f"../{app.config['BOOK_FOLDER']}"
-            folders = users.get_foldername_by_id(folder_id)
+            folders = book.get_foldername_by_id(folder_id)
             return render_template(
                 "booklist.html", books=books_in_folder, folder_name=folders, book_pic=book_pic)
 
         if request.method == "POST":
             users.check_csrf()
             book_id = request.form["book_id"]
-            users.remove_book_from_folder(folder_id, book_id)
+            book.remove_book_from_folder(folder_id, book_id)
             return redirect(f"/folder/{folder_id}")
 
     except Exception as error:
@@ -237,7 +237,7 @@ def handle_upload_book_pic(book_id):
             filename = os.path.join(
                 app.config["UPLOAD_FOLDER"], book_pic_filename)
             book_pic.save(filename)
-            if users.upload_book_pic(filename, book_id):
+            if book.upload_book_pic(filename, book_id):
                 return redirect(f"/book/{book_id}")
             return render_template(
                 "error.html", message="Invalid image file, try another image file", link="app")

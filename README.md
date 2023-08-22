@@ -24,6 +24,7 @@ Sovellus ei ole testattavissa Fly.iossa. Sovellusta on testattu itse ja voi test
 - Käyttäjä voi suositella kirjoja muille käyttäjille
 - Käyttäjä lähettää kaveripyynnön toiselle käyttäjälle
 - Lisätä sessioniin maksimiaika eli kuinka kauan session on voimassa (automaattinen uloskirjautuminen)
+- Puuttuvat tiedot näytettäisiin punasella, niin käyttäjä tietää, mitkä tiedot on pakollisia.
 
 
 ## Käynnistysohje
