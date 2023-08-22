@@ -13,6 +13,7 @@ Sovellus ei ole testattavissa Fly.iossa. Sovellusta on testattu itse ja voi test
 
 ## Sovelluksen jatkokehityideat:
 - Lisätään järjestelmänvalvoja: Kirjojen, käyttäjien ja kommenttejen poistaminen
+- Käyttäjä pystyy päivittää palautteen ja estetään useamman palautteen antamista.
 - Kaikilla sivuilla on yläpalkki, mistä löytyy asetukset, kirajutuminen ulos, tällä hetkellä lötyy vain app:stä
 - Käyttäjä voi lukita kirjan siten, että muut ei pysty muokkamaan kirjan tietoja tai sitten lisää kirjan kaikkien käyttöön
 - Käyttäjä voi lisätä genre tagin esim. horror lukemaansaan kirjaan (vastaava toiminto kirjan lisäminen kansioon)
@@ -45,4 +46,4 @@ Sovellus käynnistyy komennolla:
 ```
 flask run
 ```
--[käyttöohje](./manual.md)
+[Käyttöohje](./manual.md)

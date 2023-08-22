@@ -3,4 +3,6 @@
 disable=missing-module-docstring,
         missing-function-docstring,
         import-error,
-        cyclic-import
+        cyclic-import,
+        broad-except,
+        inconsistent-return-statements

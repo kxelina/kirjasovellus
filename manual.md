@@ -1,17 +1,23 @@
 # Kirjasovelluksen käyttöohje
 Kun ohjelma käynnistyy:
 ![welcome](./static/images/manual/welcome_page.png)
-Painamalla create new user nappulaa, niin voit luoda uuden käyttäjän ja pääset sen jälkeen sovellukseen.
-Jos sinulla on jo käyttäjä, niin voit kirjautua heti sisään.
-![app](./static/images/manual/app_page.png)
-Jos haluaa etsiä kirjoja, niin kirjoita search books kohdalle, mitää kirjaa etsit. Jos et löydä haluamasi kirjaa voi lisätä sen itse.
-Painamalla + nappulaa voit kirjan sovellukseen, jos et haluakkaan lisätä kirjaa, niin paina uudestaan + nappulasta, niin saat kirjanlisäysnäkymän pois.
 
-Painamalla My folders etusivulla, pääset katsomaan omia kansioita ja lisäämään uusia kansioita halutessasi. Painamalla, jotain tiettyä kansioo, pääset näkemään, mitä kirjoja olet lisäänyt siihen kansioon. Voit sitten poistaa halutessasi kirjan siitä kansiosta.
+Luo uusi käyttäjä painamalla create new user nappulaa ja sen jälkeen pääset suoraan sovellukseen.
+
+Jos sinulla on jo tunnukset, niin anna kirjatumistiedot ja paina login nappulaa.
+
+![app](./static/images/manual/app_page.png)
+
+Voit etsiä kirjoja kirjoittamalla search books kenttään kirjan nimen. Hakutoiminto hakee kirjan nimen alusta. Jos et löydä haluamasi kirjaa, niin voit lisätä sen itse.
+
+Painamalla + nappulaa voit lisätä kirjan kaikkien käyttöön. Pääset kirjanlisäystilasta pois, niin paina uudestaan + nappulasta.
+
+Pääset katsomaan omia kansioita ja lisäämään uusia kansioita painamalla My folders linkkiä etusivulla. Voit nähdä kansion sisällön painamalla jotain tiettyä kansiota. Kansiosta voit poistaa kirjoja painamalla remove book from folder nappulaa.
 
 Painamalla profiilikuvaa oikeasta yläkulmasta, saat näkyviin valikon (profile, settings, logout). Painamalla profile, voit vaihtaa profiilikuvasi. Painamalla settings, voit vaihtaa salasanasi. Painamalla logout, pääset kirjautumaan ulos.
 
 Painamalla kirjasta etusivulla, pääsee katsomaan kirjan yksityiskohtia ja muiden palautteita.
 ![book](./static//images/manual/book_page.png)
-Kirjalle voi vaihtaa kuvan, kun painaa choose file, niin voi valita minkä kuvan haluaa kirjalle ja painaa upload book cover nappulaa. Voit antaa kirjalle palautteen kirjallisena ja tähtinä. Voit myös lisätä kirjan mihin kansioon haluat, painamalla want-to-read kohtaa, pääset näkemään myös muut kansiot.
+
+Kirjalle voi vaihtaa kuvan, kun painaa choose file, niin voi valita minkä kuvan haluaa kirjalle ja lopuksi paina upload book cover nappulaa. Voit antaa kirjalle palautteen teksitinä ja tähtinä. Voit myös lisätä kirjan mihin kansioon haluat, painamalla want-to-read kohtaa, pääset näkemään myös muut kansiot.
 

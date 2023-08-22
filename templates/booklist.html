@@ -13,7 +13,7 @@
           <form action="/folder/{{ book.folder_id }}" method="post">
             <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
             <input type="hidden" name="book_id" value="{{ book.book_id }}">
-            <button id="showFormButton" type="submit" class="remove-button">Remove From {{ folder_name }} folder</button>
+            <button id="showFormButton" type="submit" class="remove-button">Remove book from folder</button>
         </div>
       </a>
       {% endfor %}
