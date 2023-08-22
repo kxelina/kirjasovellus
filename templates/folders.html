@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
-
 <body>
   <main>
     <h1>My Folders</h1>
+
     <div class="folders">
       {% for folder in folders %}
         <a href="/folder/{{ folder[0] }}">
@@ -34,8 +34,6 @@
     </script>
 
     <a id="backButton" href="/app">back</a>
-    
   </main>
 </body>
-
 {% endblock %}

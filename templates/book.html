@@ -1,6 +1,5 @@
 {% extends "layout.html" %}
 {% block content %}
-
 <main>
   <h1>{{ book.title  }}</h1>
     <div class="book">
@@ -16,6 +15,7 @@
       <p class="description_text"><b>Description:</b> {{ book.description_text }}</p>
       <p class="year"><b>Year:</b> {{ book.publication_year }}</p>
       <p class="genre"><b>Genre:</b> {{ book.genre }}</p>
+
       <form action="/review/book/{{ book.book_id }}" method="post" name="review" onsubmit="return validateReview()">
         <input type="hidden" name="book_id" value="{{ book.book_id }}">
         <div class="rating">
@@ -30,7 +30,9 @@
         <input type="submit" value="Submit Review" id="showFormButton">
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"> 
       </form> 
+
       <h3>Add Book to Folder</h3>
+
         <form action="/book/{{ book.book_id }}" method="post" name="folder">
           <input type="hidden" name="book_id" value="{{ book.book_id }}">
           <select name="folder_id" id="selection">
@@ -57,6 +59,7 @@
     </div>
     <a id="backButton" href="/app">back</a>
 </main>
+
 <script>
   function validateReview() {
     var ratingInputs = document.querySelectorAll('input[name="rating"]');
@@ -77,5 +80,4 @@
     return true;
   }
 </script>
-
 {% endblock %}
