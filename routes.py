@@ -4,7 +4,6 @@ from werkzeug.utils import secure_filename
 import os
 import users
 
-
 def error(e, request, route, link):
     error = f"The error is {route}({request.method}): {e}"
     print(error)
@@ -24,18 +23,18 @@ def create_new_user():
         if request.method == "POST":
             username = request.form["username"]
             if len(username) < 1 or len(username) > 10:
-                return render_template("error.html", message="your username should contain 1-10 characters", link="")
+                return render_template("error.html", message="your username should contain 1-10 characters")
 
             password1 = request.form["password1"]
             password2 = request.form["password2"]
             if password1 == "" or password2 == "":
-                return render_template("error.html", message="you should have a password", link="")
+                return render_template("error.html", message="you should have a password")
             
             if password1 != password2:
-                return render_template("error.html", message="your passwords are different", link="")
+                return render_template("error.html", message="your passwords are different")
 
             if not users.create_new_user(username, password1):
-                return render_template("error.html", message="your user hasn't been created, username is in use", link="")
+                return render_template("error.html", message="your user hasn't been created, username is in use")
             return redirect("/app")
         
     except Exception as e:
@@ -125,9 +124,10 @@ def upload():
             user_icon_filename = secure_filename(user_icon.filename)
             filename = os.path.join(app.config["UPLOAD_FOLDER"], user_icon_filename)
             user_icon.save(filename)
-            users.upload_user_icon(filename)
-            return redirect("/app")
-        
+            if users.upload_user_icon(filename):
+                return redirect("/app")
+            return render_template("error.html", message="Invalid image file, try another image file", link="app")
+            
     except Exception as e:
         return error(e, request, "/upload", "app")
 
@@ -139,10 +139,10 @@ def settings():
             new_password1 = request.form["new_password1"]
             new_password2 = request.form["new_password2"]
             if new_password1 == "" or new_password2 == "":
-                return render_template("error.html", message="you should have a password")
+                return render_template("error.html", message="you should have a password", link="app")
             
             if new_password1 != new_password2:
-                return render_template("error.html", message="your passwords are different")
+                return render_template("error.html", message="your passwords are different", link="app")
             
             user_id = users.get_user_id()
             users.update_user_info(user_id, new_password1)
@@ -216,8 +216,9 @@ def upload_book_pic(book_id):
             book_pic_filename = secure_filename(book_pic.filename)
             filename = os.path.join(app.config["UPLOAD_FOLDER"], book_pic_filename)
             book_pic.save(filename)
-            users.upload_book_pic(filename, book_id)
-            return redirect(f"/book/{book_id}")
+            if users.upload_book_pic(filename, book_id):
+                return redirect(f"/book/{book_id}")
+            return render_template("error.html", message="Invalid image file, try another image file", link="app")
 
     except Exception as e:
         return error(e, request, "/upload/book_id", "app")

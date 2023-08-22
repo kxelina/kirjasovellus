@@ -66,23 +66,24 @@ def check_csrf_token():
     if csrf_token is None:
         abort(403)
 
-def save_image_to_database(image_path):
+def read_image_from_path(image_path):
     with open(image_path, 'rb') as file:
         image_data = file.read()
-    try:
-        Image.open(image_data)
-    except Exception as error:
-        print(error)
-        raise Exception("Invalid image file, try another image file")
+    Image.open(io.BytesIO(image_data))
     return psycopg2.Binary(image_data)
 
 def upload_user_icon(filename):
     user_name = session.get("username")
     file_name, file_extension=os.path.splitext(filename)
     sql = text("INSERT INTO images (user_icon, username, file_extension) VALUES (:user_icon_data, :username, :file_extension) ON CONFLICT (username) DO UPDATE SET file_extension = :file_extension, user_icon = :user_icon_data")
-    print(sql, {"user_icon": save_image_to_database(filename)})
-    db.session.execute(sql, {"user_icon_data": save_image_to_database(filename), "username": user_name, "file_extension": file_extension})
+    try:
+        image = read_image_from_path(filename)
+    except Exception as error: 
+        print(error)
+        return False
+    db.session.execute(sql, {"user_icon_data": image, "username": user_name, "file_extension": file_extension})
     db.session.commit()
+    return True
     
 def get_user_icon():
     user_name = session.get("username")
@@ -103,9 +104,14 @@ def get_user_icon():
 def upload_book_pic(filename, book_id):
     file_name, file_extension=os.path.splitext(filename)
     sql = text("INSERT INTO book_images (picture_data, book_id, file_extension) VALUES (:picture_data, :book_id, :file_extension) ON CONFLICT (book_id) DO UPDATE SET file_extension = :file_extension, picture_data = :picture_data")
-    print(sql, {"picture_data": save_image_to_database(filename)})
-    db.session.execute(sql, {"picture_data": save_image_to_database(filename), "book_id": book_id, "file_extension": file_extension})
+    try:
+        image = read_image_from_path(filename)
+    except Exception as error: 
+        print(error)
+        return False
+    db.session.execute(sql, {"picture_data": image, "book_id": book_id, "file_extension": file_extension})
     db.session.commit()
+    return True
 
 def get_book_pic(book_id):
     sql = text("SELECT picture_data, file_extension FROM book_images WHERE book_id = :book_id")
