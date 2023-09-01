@@ -102,7 +102,7 @@ def get_user_icon():
     file_data = result.fetchone()
 
     if file_data is None:
-        filename = ("static/images/default-profile.jpg")
+        filename = "static/images/default-profile.jpg"
     else:
         filename = os.path.join(
             app.config["PROFILE_FOLDER"], user_name + file_data[1])
