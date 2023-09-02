@@ -39,7 +39,7 @@ def get_book_pic(book_id):
     file_data = result.fetchone()
 
     if file_data is None:
-        filename = ("/static/images/default-book-cover.png")
+        filename = "/static/images/default-book-cover.png"
     else:
         filename = os.path.join(
             app.config["BOOK_FOLDER"], book_id + file_data[1])
