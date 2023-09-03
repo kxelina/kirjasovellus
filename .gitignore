@@ -1,6 +1,9 @@
 venv
 __pycache__
 .env
-static/images/profile
-static/images/upload
-static/images/book_pic
+static/images/profile/*
+!static/images/profile/__init__.py
+static/images/upload/*
+!static/images/upload/__init__.py
+static/images/book_pic/*
+!static/images/book_pic/__init__.py
